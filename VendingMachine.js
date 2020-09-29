@@ -45,11 +45,24 @@ class VendingMachine {
     this.selectedItem = [];
 
     this.convertToIndex = [];
+
     this.itemPrice = 0;
   }
 
   increaseTill(coin) {
     this.till[coin]++;
+  }
+
+  noInventory() {
+    const errorMessage = "Out of stock";
+    console.log(errorMessage);
+    return errorMessage;
+  }
+
+  insufficientFunds() {
+    const errorMessage = "Insufficient funds";
+    console.log(errorMessage);
+    return errorMessage;
   }
 
   changeReturn() {
@@ -87,11 +100,16 @@ class VendingMachine {
   dispenseItem() {
     let letter = this.convertToIndex[0];
     let number = this.convertToIndex[1];
-    this.inventory[letter][number].count--;
-    this.itemPrice = this.inventory[letter][number].price;
 
-    console.log(`Here is your ${this.inventory[letter][number].name}`);
-    console.log(this.inventory[letter][number].count);
+    if (this.inventory[letter][number] === 0) {
+      return this.noInventory();
+    } else if (this.balance < this.inventory[letter][number].price) {
+      return this.insufficientFunds();
+    } else {
+      this.inventory[letter][number].count--;
+      this.itemPrice = this.inventory[letter][number].price;
+      console.log(`Here is your ${this.inventory[letter][number].name}`);
+    }
   }
 
   insertCoin(coin) {

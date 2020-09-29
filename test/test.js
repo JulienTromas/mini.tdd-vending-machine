@@ -55,6 +55,7 @@ describe("vending machine", () => {
   it("should decrease the inventory by one", () => {
     const machine = new VendingMachine();
 
+    machine.insertCoin(500);
     machine.pressButton("A");
     machine.pressButton(1);
 
@@ -109,13 +110,23 @@ describe("vending machine", () => {
     expect(machine.changeAmount).to.equal(150);
   });
 
-  it("should remove the right amount of coins from the till", () => {
+  it("should return an error if there is no inventory", () => {
     const machine = new VendingMachine();
 
     machine.insertCoin(500);
     machine.pressButton("D");
     machine.pressButton(3);
 
-    expect(machine.changeAmount).to.equal(150);
+    expect(machine.dispenseItem()).to.equal("Out of stock");
+  });
+
+  it("should return an error if balance is insufficient", () => {
+    const machine = new VendingMachine();
+
+    machine.insertCoin(100);
+    machine.pressButton("D");
+    machine.pressButton(2);
+
+    expect(machine.dispenseItem()).to.equal("Insufficient funds");
   });
 });
