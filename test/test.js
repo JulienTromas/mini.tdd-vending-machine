@@ -2,6 +2,12 @@ const VendingMachine = require("../VendingMachine");
 const { expect } = require("chai");
 
 describe("vending machine", () => {
+  it("should be able to insert a coin", () => {
+    const machine = new VendingMachine();
+
+    expect(typeof machine.insertCoin).to.equal("function");
+  });
+
   it("should accept valid coins", () => {
     // Setup
     const machine = new VendingMachine();
