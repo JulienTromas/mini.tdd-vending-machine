@@ -2,6 +2,12 @@ const VendingMachine = require("../VendingMachine");
 const { expect } = require("chai");
 
 describe("vending machine", () => {
+  it("should return zero for the balance when program starts", () => {
+    const machine = new VendingMachine();
+
+    expect(machine.balance).to.equal(0);
+  });
+
   it("should be able to insert a coin", () => {
     const machine = new VendingMachine();
 
@@ -23,5 +29,26 @@ describe("vending machine", () => {
       500: 1,
     });
     expect(machine.balance).to.equal(500); // Use an ES6 getter
+  });
+
+  it("should be able to press a button", () => {
+    const machine = new VendingMachine();
+
+    expect(typeof machine.pressButton).to.equal("function");
+  });
+
+  it("should print a letter when a row is selected", () => {
+    const machine = new VendingMachine();
+
+    expect(machine.pressButton("A")).to.equal("A");
+  });
+
+  it("should print a row and column", () => {
+    const machine = new VendingMachine();
+
+    machine.pressButton("A");
+    machine.pressButton(1);
+
+    expect(machine.selectedItem).to.deep.equal(["A", 1]);
   });
 });
