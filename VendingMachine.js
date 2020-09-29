@@ -9,6 +9,7 @@ class VendingMachine {
     this.balance = 0;
 
     this.changeAmount = 0;
+
     this.change = {
       10: 0,
       50: 0,
@@ -53,6 +54,32 @@ class VendingMachine {
 
   changeReturn() {
     this.changeAmount = this.balance - this.itemPrice;
+    let currentChange = this.balance - this.itemPrice;
+
+    if (currentChange > 100) {
+      let moduloHundred = (currentChange - (currentChange % 100)) / 100;
+      for (let i = 0; i < moduloHundred; i++) {
+        this.change[100]++;
+        this.till[100]--;
+      }
+      currentChange -= 100 * moduloHundred;
+    }
+    if (currentChange < 100 && currentChange >= 50) {
+      let moduloFifty = (currentChange - (currentChange % 50)) / 50;
+      for (let i = 0; i < moduloFifty; i++) {
+        this.change[50]++;
+        this.till[50]--;
+      }
+      currentChange -= 50 * moduloFifty;
+    }
+    if (currentChange >= 10) {
+      let moduloTen = (currentChange - (currentChange % 10)) / 10;
+      for (let i = 0; i < moduloTen; i++) {
+        this.change[10]++;
+        this.till[10]--;
+      }
+      currentChange -= 10 * moduloTen;
+    }
 
     return this.change;
   }
@@ -70,10 +97,6 @@ class VendingMachine {
   insertCoin(coin) {
     this.increaseTill(coin);
     this.balance += coin;
-    console.log(coin);
-    console.log(this.inventory[2][3]);
-    console.log(this.balance);
-    console.log(this.till);
     return coin;
   }
 
@@ -118,11 +141,9 @@ class VendingMachine {
       this.changeReturn();
     } else {
       console.log(input);
-
       return input;
     }
-
-    // stockInventory(obj) {}
   }
 }
+
 module.exports = VendingMachine;
