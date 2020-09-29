@@ -51,4 +51,34 @@ describe("vending machine", () => {
 
     expect(machine.selectedItem).to.deep.equal(["A", 1]);
   });
+
+  it("should decrease the inventory by one", () => {
+    const machine = new VendingMachine();
+
+    machine.pressButton("A");
+    machine.pressButton(1);
+
+    expect(machine.inventory[0][0].count).to.equal(4);
+  });
+
+  it("should be able to return change", () => {
+    const machine = new VendingMachine();
+
+    machine.insertCoin(500);
+    machine.pressButton("A");
+    machine.pressButton(1);
+
+    expect(machine.inventory[0][0].count).to.equal(4);
+  });
+
+  it("should return the right amount of change", () => {
+    const machine = new VendingMachine();
+
+    machine.insertCoin(500);
+    machine.pressButton("A");
+    machine.pressButton(1);
+    machine.changeReturn();
+
+    expect(machine.inventory[0][0].count).to.equal(4);
+  });
 });

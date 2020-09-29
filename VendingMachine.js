@@ -8,11 +8,19 @@ class VendingMachine {
   constructor() {
     this.balance = 0;
 
-    this.till = {
+    this.changeAmount = 0;
+    this.change = {
       10: 0,
       50: 0,
       100: 0,
       500: 0,
+    };
+
+    this.till = {
+      10: 10,
+      50: 10,
+      100: 10,
+      500: 10,
     };
 
     this.items = {
@@ -36,16 +44,24 @@ class VendingMachine {
     this.selectedItem = [];
 
     this.convertToIndex = [];
+    this.itemPrice = 0;
   }
 
   increaseTill(coin) {
     this.till[coin]++;
   }
 
+  changeReturn() {
+    this.changeAmount = this.balance - this.itemPrice;
+
+    return this.change;
+  }
+
   dispenseItem() {
     let letter = this.convertToIndex[0];
     let number = this.convertToIndex[1];
     this.inventory[letter][number].count--;
+    this.itemPrice = this.inventory[letter][number].price;
 
     console.log(`Here is your ${this.inventory[letter][number].name}`);
     console.log(this.inventory[letter][number].count);
@@ -99,6 +115,7 @@ class VendingMachine {
         `You selected row ${this.selectedItem[0]} and column ${this.selectedItem[1]}`
       );
       this.dispenseItem();
+      this.changeReturn();
     } else {
       console.log(input);
 
